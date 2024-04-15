@@ -1,7 +1,7 @@
 # ioBroker Shelly Servicemeldungen
 
 ## Beschreibung
-Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "rssi", "battery" und "firmware" von allen Shelly-Geräten im ioBroker und überprüft, ob Servicemeldungen vorliegen. Beim ersten Start des Skripts werden zwei Datenpunkte angelegt ("javascript.0.shelly_service.ssm" und "javascript.0.shelly_service.ssm_text"). Diese Datenpunkte werden bei jeder Zustandsänderung aktualisiert.
+Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "rssi", "battery" und "firmware" von allen Shelly-Geräten im ioBroker und überprüft, ob Servicemeldungen vorliegen. Beim ersten Start des Skripts werden zwei Datenpunkte angelegt ("javascript.0.shelly_service.count" und "javascript.0.shelly_service.text"). Diese Datenpunkte werden bei jeder Zustandsänderung aktualisiert.
 
 ## Vorraussetzungen
 - ioBroker JavaScript-Adapter
