@@ -22,6 +22,11 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 {a:javascript.0.shelly_service.text;a.replace(/,/g,"<br>")}
 ```
 
+## Changelog
+-v0.0.2b
+-- Wenn ein Shellygerät gelöscht wird, wird dies nun automatisch vom Skript erkannt, woraufhin eine erneute Abfrage der vorhandenen Datapunkte initiiert wird.
+-- Anpassungen der Variablen wurden vorgenommen.
+
 ## Haftungsausschluss:
 Die Nutzung dieses Scripts erfolgt auf eigene Gefahr. Es wird ausdrücklich darauf hingewiesen, dass keinerlei Haftung für Schäden jeglicher Art übernommen wird, die durch die Verwendung dieses Scripts entstehen könnten. Dies schließt, ohne Einschränkung, direkte, indirekte, zufällige und Folgeschäden ein.
 
