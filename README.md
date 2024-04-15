@@ -9,7 +9,7 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 
 ## Installation
 1. Erstelle einen neuen JavaScript im ioBroker.
-2. Füge den Code aus der Datei "blockly.xml" ein.
+2. Füge den Code aus der Datei "shelly_service.js" ein.
 3. Starte den Skript.
 
 ## Datenpunkte in vis einbinden
