@@ -1,4 +1,4 @@
-# ioBroker Shelly Servicemeldungen (Blockly-Skript)
+# ioBroker Shelly Servicemeldungen
 
 ## Beschreibung
 Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "rssi", "battery" und "firmware" von allen Shelly-Geräten im ioBroker und überprüft, ob Servicemeldungen vorliegen. Beim ersten Start des Skripts werden zwei Datenpunkte angelegt ("javascript.0.shelly_service.ssm" und "javascript.0.shelly_service.ssm_text"). Diese Datenpunkte werden bei jeder Zustandsänderung aktualisiert.
@@ -8,11 +8,9 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 - ioBroker Shelly-Adapter
 
 ## Installation
-1. Erstelle einen neuen Blockly-Skript im ioBroker. Der Name des Skripts kann frei gewählt werden.
-2. Klicke auf Blöcke importieren.
-3. Füge den Code aus der Datei "blockly.xml" ein.
-4. Starte den Skript.
-5. (Optional) Wenn du eine Discord-Webhook benutzen willst, kannst du noch die eine Discord-Webhook-Adresse eingeben.
+1. Erstelle einen neuen JavaScript im ioBroker.
+2. Füge den Code aus der Datei "blockly.xml" ein.
+3. Starte den Skript.
 
 ## Datenpunkte in vis einbinden
 - Anzahl an Servicemeldungen:
