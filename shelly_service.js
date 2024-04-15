@@ -1,30 +1,39 @@
 // ioBroker Shelly Servicemeldungen
 //
-// Version: v0.0.1b
+// Version: v0.0.2b
 // Ersteller: ioBuchi
 // Github: https://github.com/ioBuchi
 
 //// Einstellungen ////
 
 // Servicewerte
-var service_value_rssi    = -80 // Dieser Wert gibt an ab welcher Grenze der RSSI-Wert auslöst.
-var service_value_battery =  20 // Ab wieviel Prozent Batteriezustand soll eine Servicemeldung angezeigt werden.
+const service_value_rssi    = -90 // Dieser Wert gibt an ab welcher Grenze der RSSI-Wert auslöst.
+const service_value_battery =  20 // Ab wieviel Prozent Batteriezustand soll eine Servicemeldung angezeigt werden.
 
 // Discord Webhook
-var discord_enable     = false;
-var discord_webhookUrl = '';
-var discord_username   = 'ioBroker Shelly Service'
-var discord_avatar     = 'https://i.ibb.co/dLZYGwC/Iobuchi-logo.png';
+const discord_enable     = false;
+const discord_webhookUrl = '';
+const discord_username   = 'ioBroker Shelly Service'
+const discord_avatar     = 'https://i.ibb.co/dLZYGwC/Iobuchi-logo.png';
 
 //// !!!Ab hier nur noch für Experten!!! ////
 
 // States abfragen
-var online_states   = Array.prototype.slice.apply($('state[id=shelly.0.*.online]'));
-var rssi_states     = Array.prototype.slice.apply($('state[id=shelly.0.*.rssi]'));
-var battery_states  = Array.prototype.slice.apply($('state[id=shelly.0.*.battery]'));
-var firmware_states = Array.prototype.slice.apply($('state[id=shelly.0.*.firmware]'));
+let online_states   = [];
+let rssi_states     = [];
+let battery_states  = [];
+let firmware_states = [];
 
-console.log("Es wurden " + (online_states.length + rssi_states.length + battery_states.length + firmware_states.length) + " Datenpunkte gefunden.");
+get_states();
+
+function get_states() {
+    online_states   = Array.prototype.slice.apply($('state[id=shelly.*.online]'));
+    rssi_states     = Array.prototype.slice.apply($('state[id=shelly.*.rssi]'));
+    battery_states  = Array.prototype.slice.apply($('state[id=shelly.*.battery]'));
+    firmware_states = Array.prototype.slice.apply($('state[id=shelly.*.firmware]'));
+
+    console.log("Es wurden " + (online_states.length + rssi_states.length + battery_states.length + firmware_states.length) + " Datenpunkte gefunden.");
+}
 
 // Prüfen ob Datenpunkte für die Ausgebe existiren und bei Bedarf neu anlegen
 if (!!$("javascript.0.shelly_service.count").length === false) {
@@ -49,46 +58,71 @@ async function get_service_messages() {
 
     // Onlinezustände abfragen
     for (let i = 0; i < online_states.length; i++) {
-        if (getState(online_states[i]).val === false) {
-            if (service_count > 0) {
-                service_text += ', ';
+        if ($(online_states[i]).length === 0) {
+            get_states();
+            console.warn("Datenpunkt " + online_states[i] + "existiert nicht mehr. Datenpunkte werden neu abgefragt");
+            return;
+        } else {
+            if (getState(online_states[i]).val === false) {
+                if (service_count > 0) {
+                    service_text += ', ';
+                }
+                var device_id = online_states[i].replace(".online", "");
+                service_count++
+                service_text += (await getObjectAsync(device_id)).common.name + " ist offline";
             }
-            var device_id = online_states[i].replace(".online", "");
-            service_count++
-            service_text += (await getObjectAsync(device_id)).common.name + " ist offline";
         }
+        
     }
     // Empfangsstärke abfragen
     for (let i = 0; i < rssi_states.length; i++) {
-        if (getState(rssi_states[i]).val <= service_value_rssi) {
-            if (service_count > 0) {
-                service_text += ', ';
+        if ($(rssi_states[i]).length === 0) {
+            get_states();
+            console.warn("Datenpunkt " + rssi_states[i] + "existiert nicht mehr. Datenpunkte werden neu abgefragt");
+            return;
+        } else {
+            if (getState(rssi_states[i]).val <= service_value_rssi) {
+                if (service_count > 0) {
+                    service_text += ', ';
+                }
+                var device_id = rssi_states[i].replace(".rssi", "");
+                service_count++
+                service_text += (await getObjectAsync(device_id)).common.name + " hat einen schlechten Empfang";
             }
-            var device_id = rssi_states[i].replace(".rssi", "");
-            service_count++
-            service_text += (await getObjectAsync(device_id)).common.name + " hat einen schlechten Empfang";
-        }
+        }   
     }
     // Batteriezustände abfragen
     for (let i = 0; i < battery_states.length; i++) {
-        if (getState(battery_states[i]).val <= service_value_battery) {
-            if (service_count > 0) {
-                service_text += ', ';
+        if ($(battery_states[i]).length === 0) {
+            get_states();
+            console.warn("Datenpunkt " + battery_states[i] + "existiert nicht mehr. Datenpunkte werden neu abgefragt");
+            return;
+        } else {
+            if (getState(battery_states[i]).val <= service_value_battery) {
+                if (service_count > 0) {
+                    service_text += ', ';
+                }
+                var device_id = battery_states[i].replace(".battery", "");
+                service_count++
+                service_text += (await getObjectAsync(device_id)).common.name + " Batterieladung gering (" + battery_states[i].val + "%)";
             }
-            var device_id = battery_states[i].replace(".battery", "");
-            service_count++
-            service_text += (await getObjectAsync(device_id)).common.name + " Batterieladung gering (" + battery_states[i].val + "%)";
         }
     }
     //Firmware-Updates abfragen
     for (let i = 0; i < firmware_states.length; i++) {
-        if (getState(firmware_states[i]).val === true) {
-            if (service_count > 0) {
-                service_text += ', ';
+        if ($(firmware_states[i]).length === 0) {
+            get_states();
+            console.warn("Datenpunkt " + firmware_states[i] + " existiert nicht mehr. Datenpunkte werden neu abgefragt");
+            return;
+        } else {
+            if (getState(firmware_states[i]).val === true) {
+                if (service_count > 0) {
+                    service_text += ', ';
+                }
+                var device_id = firmware_states[i].replace(".firmware", "");
+                service_count++
+                service_text += (await getObjectAsync(device_id)).common.name + " benötigt ein Firmware-Update";
             }
-            var device_id = firmware_states[i].replace(".firmware", "");
-            service_count++
-            service_text += (await getObjectAsync(device_id)).common.name + " benötigt ein Firmware-Update";
         }
     }
     //Ausgabedatenpunkte aktualisieren und Webhook triggern
