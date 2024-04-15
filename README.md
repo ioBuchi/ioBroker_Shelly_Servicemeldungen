@@ -23,6 +23,12 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 ```
 
 ## Changelog
+### v0.0.4b
+- Telegram Webhook hinzugefügt
+
+### v0.0.3b
+- Anpassung der Variablennamen
+
 ### v0.0.2b
 - Wenn ein Shellygerät gelöscht wird, wird dies nun automatisch vom Skript erkannt, woraufhin eine erneute Abfrage der vorhandenen Datapunkte initiiert wird.
 - Anpassungen der Variablen wurden vorgenommen.
