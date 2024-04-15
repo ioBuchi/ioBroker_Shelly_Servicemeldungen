@@ -23,7 +23,7 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 ```
 
 ## Changelog
-### v0.0.4b
+### v0.0.4b 
 - Telegram Webhook hinzugefügt
 
 ### v0.0.3b
