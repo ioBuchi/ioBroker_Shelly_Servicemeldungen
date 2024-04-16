@@ -23,7 +23,7 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 ```
 
 ## Changelog
-### v0.0.45b 
+### v0.0.5b 
 - Das Script prüft jetzt automatisch ob auf Github eine neue Version zur verfügung steht.
 
 ### v0.0.4b 
