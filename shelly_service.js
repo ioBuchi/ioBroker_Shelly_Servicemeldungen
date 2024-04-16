@@ -1,6 +1,6 @@
 // ioBroker Shelly Servicemeldungen
 //
-// Version: v0.0.4b
+// Version: v0.0.5b
 // Ersteller: ioBuchi
 // Github: https://github.com/ioBuchi
 
@@ -23,6 +23,8 @@ const telegramchatId    = '';
 
 //// !!!Ab hier nur noch für Experten!!! ////
 
+const scriptVersion = "0.0.5-beta" // Nicht ändern!!!
+
 // States abfragen
 let onlineStates   = [];
 let rssiStates     = [];
@@ -30,6 +32,11 @@ let batteryStates  = [];
 let firmwareStates = [];
 
 get_states();
+checkLatestVersion(true, scriptVersion)
+
+schedule("*/30 * * * *", async () => {
+    checkLatestVersion(false, scriptVersion)
+});
 
 function get_states() {
     onlineStates   = Array.prototype.slice.apply($('state[id=shelly.*.online]'));
@@ -177,5 +184,33 @@ async function sendToTelegramWebhook(message) {
     })
     .catch(error => {
         console.error('Fehler beim Senden der Nachricht:', error);
+    });
+}
+
+// Funktion zum Abrufen der neuesten Release-Version von GitHub
+const request = require('request');
+
+function checkLatestVersion(scriptStart, installedVersion) {
+    const options = {
+        url: `https://api.github.com/repos/ioBuchi/ioBroker_Shelly_Servicemeldungen/releases/latest`,
+        headers: {
+            'User-Agent': 'ioBrokerShellyService' // GitHub-API erfordert einen User-Agent
+        }
+    };
+
+    request(options, (error, response, body) => {
+        if (!error && response.statusCode === 200) {
+            const latestRelease = JSON.parse(body);
+            const latestVersion = latestRelease.tag_name.replace('v', ''); // Formatieren der Version, falls nötig
+            if (latestVersion === installedVersion) {
+                if (scriptStart) {
+                    console.log("Du nutzt die aktuelle Version");
+                }
+            } else {
+                console.warn("Es ist eine neue Version verfügbar. Deine aktuelle Version ist " + installedVersion + ". Die neuste Version ist: " + latestVersion + ".")
+            }
+        } else {
+            console.warn(`Failed to fetch latest version: ${response.statusCode}`);
+        }
     });
 }
