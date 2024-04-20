@@ -18,14 +18,25 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 - [Telegram Chat ID herausfinden](https://gist.github.com/nafiesl/4ad622f344cd1dc3bb1ecbe468ff9f8a)
 
 ## Datenpunkte
-| Datenpunkt    | Beschreibung  | Standardwert |
+
+"javascript.0.shelly_service."
+| Datenpunkt    | Beschreibung  | Standardwert | Typ |
 | ------------- | ------------- | ------------- |
-| "javascript.0.shelly_service.count" | Anzahl der aktuell anstehenden Servicemeldungen | 0 |
-| "javascript.0.shelly_service.text" | Servicemeldungen als Text | "" |
-| "javascript.0.shelly_service.settings.general.valueBattery" | Wert ab wann eine Batteriestörung erkannt werden soll | 20 |
-| "javascript.0.shelly_service.settings.general.valueRSSI" | Wert ab wann ein schlechter Empfang erkannt werden soll. Je kleiner der Wert, desto schlechter der Empfang | -90 |
-| "javascript.0.shelly_service.settings.discord.enable" | Datenpunkt um die Webhook über Discord zu aktivieren | false |
-| "javascript.0.shelly_service.settings.telegram.enable" | Datenpunkt um die Webhook über Telegram zu aktivieren | false |
+| count | Anzahl der aktuell anstehenden Servicemeldungen | 0 | number |
+| text | Servicemeldungen als Text | "" | string |
+
+"javascript.0.shelly_service.settings.general."
+| Datenpunkt    | Beschreibung  | Standardwert | Typ |
+| valueBattery | Wert ab wann eine Batteriestörung erkannt werden soll | 20 | number |
+| valueRSSI | Wert ab wann ein schlechter Empfang erkannt werden soll. Je kleiner der Wert, desto schlechter der Empfang | -90 | number |
+
+"javascript.0.shelly_service.settings.discord."
+| Datenpunkt    | Beschreibung  | Standardwert | Typ |
+| enable | Datenpunkt um die Webhook über Discord zu aktivieren | false | boolean |
+
+"javascript.0.shelly_service.settings.telegram."
+| Datenpunkt    | Beschreibung  | Standardwert | Typ |
+| enable | Datenpunkt um die Webhook über Telegram zu aktivieren | false | boolean |
 
 ## Datenpunkte in vis einbinden
 - Anzahl an Servicemeldungen:
