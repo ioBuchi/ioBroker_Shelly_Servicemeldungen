@@ -12,6 +12,11 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 2. Füge den Code aus der Datei "shelly_service.js" ein.
 3. Starte den Skript.
 
+## Webhooks
+- [Discord Webhook erstellen](https://support.discord.com/hc/de/articles/228383668-Einleitung-in-Webhooks)
+- [Telegram Chatbot erstellen](https://www.netzwelt.de/anleitung/176027-telegram-so-erstellt-bot.html)
+- [Telegram Chat ID herausfinden](https://gist.github.com/nafiesl/4ad622f344cd1dc3bb1ecbe468ff9f8a)
+
 ## Datenpunkte
 | Datenpunkt    | Beschreibung  |
 | ------------- | ------------- |
