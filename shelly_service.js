@@ -1,29 +1,25 @@
 // ioBroker Shelly Servicemeldungen
 //
-// Version: v0.0.5b
+// Version: v0.0.6-beta
 // Ersteller: ioBuchi
 // Github: https://github.com/ioBuchi
 
 //// Einstellungen ////
 
-// Servicewerte
-const serviceValueRssi    = -90 // Dieser Wert gibt an ab welcher Grenze der RSSI-Wert auslöst.
-const serviceValueBattery =  20 // Ab wieviel Prozent Batteriezustand soll eine Servicemeldung angezeigt werden.
-
 // Discord Webhook
-const discordEnable     = false;
 const discordWebhookUrl = '';
 const discordUsername   = 'ioBroker Shelly Service'
 const discordAvatar     = 'https://i.ibb.co/dLZYGwC/Iobuchi-logo.png';
 
 // Telegram Webhook
-const telegramEnable    = false
 const telegramToken     = '';
 const telegramchatId    = '';
 
 //// !!!Ab hier nur noch für Experten!!! ////
 
-const scriptVersion = "0.0.5-beta" // Nicht ändern!!!
+const request = require('request');
+const axios = require('axios');
+const scriptVersion = "0.0.6-beta" // Nicht ändern!!!
 
 // States abfragen
 let onlineStates   = [];
@@ -49,12 +45,30 @@ function get_states() {
 
 // Prüfen ob Datenpunkte für die Ausgebe existiren und bei Bedarf neu anlegen
 if (!!$("javascript.0.shelly_service.count").length === false) {
-    createState('shelly_service.count', parseFloat(0), { type: 'number', read: true, write: true }, async () => {});
+    createState('shelly_service.count', parseFloat(0), { type: 'number', read: true, write: false }, async () => {});
     console.log("Neuer Datenpunkt angelegt: javascript.0.shelly_service.count");
 }
 if (!!$("javascript.0.shelly_service.text").length === false) {
-    createState('shelly_service.text', "", { type: 'string', read: true, write: true }, async () => {});
+    createState('shelly_service.text', "", { type: 'string', read: true, write: false }, async () => {});
     console.log("Neuer Datenpunkt angelegt: javascript.0.shelly_service.text");
+}
+// Prüfen ob Datenpunkte für die allgemeinen Einstellungen existieren und bei Bedarf neu anlegen
+if (!!$("javascript.0.shelly_service.settings.general.valueRSSI").length === false) {
+    createState('shelly_service.settings.general.valueRSSI', parseFloat(-90), { type: 'number', read: true, write: true }, async () => {});
+    console.log("Neuer Datenpunkt angelegt: javascript.0.shelly_service.general.valueRSSI");
+}
+if (!!$("javascript.0.shelly_service.settings.general.valueBattery").length === false) {
+    createState('shelly_service.settings.general.valueBattery', parseFloat(20), { type: 'number', read: true, write: true }, async () => {});
+    console.log("Neuer Datenpunkt angelegt: javascript.0.shelly_service.settings.general.valueBattery.");
+}
+// Prüfen ob Datenpunkte für die Webhook Einstellungen existieren und bei Bedarf neu anlegen
+if (!!$("javascript.0.shelly_service.settings.discord.enable").length === false) {
+    createState('shelly_service.settings.discord.enable', false, { type: 'boolean', read: true, write: true }, async () => {});
+    console.log("Neuer Datenpunkt angelegt: javascript.0.shelly_service.settings.discord.enable.");
+}
+if (!!$("javascript.0.shelly_service.settings.telegram.enable").length === false) {
+    createState('shelly_service.settings.telegram.enable', false, { type: 'boolean', read: true, write: true }, async () => {});
+    console.log("Neuer Datenpunkt angelegt: javascript.0.shelly_service.settings.telegram.enable.");
 }
 
 // Bei Wertänderung auslösen
@@ -93,7 +107,7 @@ async function get_service_messages() {
             console.warn("Datenpunkt " + rssiStates[i] + "existiert nicht mehr. Datenpunkte werden neu abgefragt");
             return;
         } else {
-            if (getState(rssiStates[i]).val <= serviceValueRssi) {
+            if (getState(rssiStates[i]).val <= getState('javascript.0.shelly_service.settings.general.valueRSSI').val) {
                 if (serviceCount > 0) {
                     serviceText += ', ';
                 }
@@ -110,7 +124,7 @@ async function get_service_messages() {
             console.warn("Datenpunkt " + batteryStates[i] + "existiert nicht mehr. Datenpunkte werden neu abgefragt");
             return;
         } else {
-            if (getState(batteryStates[i]).val <= serviceValueBattery) {
+            if (getState(batteryStates[i]).val <= getState('javascript.0.shelly_service.settings.general.valueBattery').val) {
                 if (serviceCount > 0) {
                     serviceText += ', ';
                 }
@@ -146,10 +160,10 @@ async function get_service_messages() {
     }
     if (getState('javascript.0.shelly_service.text').val != serviceText) {
         setState('javascript.0.shelly_service.text', serviceText);
-        if (discordEnable) {
+        if (getState('javascript.0.shelly_service.settings.discord.enable').val) {
             await sendToDiscordWebhook(serviceText);
         }
-        if (telegramEnable) {
+        if (getState('javascript.0.shelly_service.settings.telegram.enable').val) {
             await sendToTelegramWebhook(serviceText);
         }
     }
@@ -188,8 +202,6 @@ async function sendToTelegramWebhook(message) {
 }
 
 // Funktion zum Abrufen der neuesten Release-Version von GitHub
-const request = require('request');
-
 function checkLatestVersion(scriptStart, installedVersion) {
     const options = {
         url: `https://api.github.com/repos/ioBuchi/ioBroker_Shelly_Servicemeldungen/releases/latest`,
