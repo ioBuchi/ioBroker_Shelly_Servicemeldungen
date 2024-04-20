@@ -38,6 +38,7 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 - Kleine Verbesserungen an der Struktur des Skripts
 
 !!! Wichtiger Hinweis !!!
+
 Die Struktur der Datenpunkte wurde verändert. Wenn du eine ältere Version installiert hast, lösche bitte zuerst den kompletten Objektbaum "javascript.0.selly_service"
 
 ### v0.0.5b 
