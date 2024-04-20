@@ -156,10 +156,10 @@ async function get_service_messages() {
         serviceText = "Derzeit keine Servicemeldungen"
     }
     if (getState('javascript.0.shelly_service.count').val != serviceCount) {
-        setState('javascript.0.shelly_service.count', serviceCount);
+        setState('javascript.0.shelly_service.count', serviceCount, true);
     }
     if (getState('javascript.0.shelly_service.text').val != serviceText) {
-        setState('javascript.0.shelly_service.text', serviceText);
+        setState('javascript.0.shelly_service.text', serviceText, true);
         if (getState('javascript.0.shelly_service.settings.discord.enable').val) {
             await sendToDiscordWebhook(serviceText);
         }
