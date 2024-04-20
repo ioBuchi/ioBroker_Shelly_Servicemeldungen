@@ -33,6 +33,9 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 ```
 
 ## Changelog
+### v0.0.7b
+- Die Warnmeldung beim Schreiben der Ausgabewerte wurde behoben
+
 ### v0.0.6b
 - Die Einstellungen für die Webhooks sowie die Werte für "RSSI" und "Battery" können nun über Datenpunkte aktualisiert werden
 - Kleine Verbesserungen an der Struktur des Skripts
