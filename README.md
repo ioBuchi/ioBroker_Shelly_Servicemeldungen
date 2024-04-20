@@ -22,24 +22,27 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 "javascript.0.shelly_service."
 
 | Datenpunkt    | Beschreibung  | Standardwert | Typ |
-| ------------- | ------------- | ------------- |
+| ------------- | ------------- | ------------- | ------------- |
 | count | Anzahl der aktuell anstehenden Servicemeldungen | 0 | number |
 | text | Servicemeldungen als Text | "" | string |
 
 "javascript.0.shelly_service.settings.general."
 
 | Datenpunkt    | Beschreibung  | Standardwert | Typ |
+| ------------- | ------------- | ------------- | ------------- |
 | valueBattery | Wert ab wann eine Batteriestörung erkannt werden soll | 20 | number |
 | valueRSSI | Wert ab wann ein schlechter Empfang erkannt werden soll. Je kleiner der Wert, desto schlechter der Empfang | -90 | number |
 
 "javascript.0.shelly_service.settings.discord."
 
 | Datenpunkt    | Beschreibung  | Standardwert | Typ |
+| ------------- | ------------- | ------------- | ------------- |
 | enable | Datenpunkt um die Webhook über Discord zu aktivieren | false | boolean |
 
 "javascript.0.shelly_service.settings.telegram."
 
 | Datenpunkt    | Beschreibung  | Standardwert | Typ |
+| ------------- | ------------- | ------------- | ------------- |
 | enable | Datenpunkt um die Webhook über Telegram zu aktivieren | false | boolean |
 
 ## Datenpunkte in vis einbinden
