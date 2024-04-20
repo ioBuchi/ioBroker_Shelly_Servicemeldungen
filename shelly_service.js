@@ -1,6 +1,6 @@
 // ioBroker Shelly Servicemeldungen
 //
-// Version: v0.0.6-beta
+// Version: v0.0.7-beta
 // Ersteller: ioBuchi
 // Github: https://github.com/ioBuchi
 
@@ -19,7 +19,7 @@ const telegramchatId    = '';
 
 const request = require('request');
 const axios = require('axios');
-const scriptVersion = "0.0.6-beta" // Nicht ändern!!!
+const scriptVersion = "0.0.7-beta" // Nicht ändern!!!
 
 // States abfragen
 let onlineStates   = [];
