@@ -12,6 +12,16 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 2. Füge den Code aus der Datei "shelly_service.js" ein.
 3. Starte den Skript.
 
+## Datenpunkte
+| Datenpunkt    | Beschreibung  |
+| ------------- | ------------- |
+| "javascript.0.shelly_service.count" | Anzahl der aktuell anstehenden Servicemeldungen |
+| "javascript.0.shelly_service.text" | Servicemeldungen als Text |
+| "javascript.0.shelly_service.settings.general.valueBattery" | Wert ab wann eine Batteriestörung erkannt werden soll |
+| "javascript.0.shelly_service.settings.general.valueRSSI" | Wert ab wann ein schlechter Empfang erkannt werden soll. Je kleiner der Wert, desto schlechter der Empfang |
+| "javascript.0.shelly_service.settings.discord.enable" | Datenpunkt um die Webhook über Discord zu aktivieren |
+| "javascript.0.shelly_service.settings.telegram.enable" | Datenpunkt um die Webhook über Telegram zu aktivieren |
+
 ## Datenpunkte in vis einbinden
 - Anzahl an Servicemeldungen:
 ```html
@@ -23,6 +33,14 @@ Dieses Skript automatisiert das Auslesen von Datenpunkten der Typen "online", "r
 ```
 
 ## Changelog
+### v0.0.6b
+- Die Einstellungen für die Webhooks sowie die Werte für "RSSI" und "Battery" können nun über Datenpunkte aktualisiert werden
+- Kleine Verbesserungen an der Struktur des Skripts
+
+!!! Wichtiger Hinweis !!!
+
+Die Struktur der Datenpunkte wurde verändert. Wenn du eine ältere Version installiert hast, lösche bitte zuerst den kompletten Objektbaum "javascript.0.selly_service"
+
 ### v0.0.5b 
 - Das Script prüft jetzt automatisch ob auf Github eine neue Version zur verfügung steht.
 
